@@ -1,0 +1,1 @@
+A hand clicks on the Accessibility Statement link in the footer menu on a laptop screen. The screen changes, displaying an "Add menu item" pop-up. The menu item is added and the screen shows the updated footer menu, then a storefront with "Accessibility Statement" in the footer. A phone with the same menu also displays "Accessibility Statement."

@@ -1,0 +1,135 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: accessibility
+    description: Video accessibility generation operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /accessibility/generate:
+    post:
+      operationId: generateAccessibility
+      tags: [accessibility]
+      summary: Upload video and generate accessibility files
+      description: Accepts a video file upload and returns transcript, captions, and audio description
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                video:
+                  type: string
+                  format: binary
+                  description: Video file to process (mp4, mov, webm, m4v)
+              required:
+                - video
+      responses:
+        "200":
+          description: Successfully generated accessibility files
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccessibilityResult"
+        "400":
+          description: Bad request (invalid file type, size, etc.)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /accessibility/download/{type}:
+    get:
+      operationId: downloadFile
+      tags: [accessibility]
+      summary: Download a generated file
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [transcript, captions, audio-description]
+          description: Type of file to download
+        - name: sessionId
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Session ID from generate response
+      responses:
+        "200":
+          description: File content
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: File not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    AccessibilityResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        sessionId:
+          type: string
+        transcript:
+          type: string
+        captions:
+          type: string
+        audioDescription:
+          type: string
+      required:
+        - success
+        - sessionId
+        - transcript
+        - captions
+        - audioDescription
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+      required:
+        - success
+        - error

@@ -1,0 +1,1 @@
+A laptop with a Shopify admin screen. The narrator guides through steps to add an accessibility statement page to the footer menu. A new "Accessibility Statement" link appears in the footer.

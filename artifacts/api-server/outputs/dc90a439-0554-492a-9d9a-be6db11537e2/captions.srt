@@ -1,0 +1,63 @@
+1
+00:00:00,320 --> 00:00:04,360
+Want to make your accessibility statement page easier for your customers to find?
+
+2
+00:00:04,900 --> 00:00:12,680
+In this video, I'll show you exactly how to add a page to your Shopify menu, so your customers can access it effortlessly.
+
+3
+00:00:12,870 --> 00:00:18,500
+If you're new to Shopify or just getting started, don't worry.
+
+4
+00:00:18,500 --> 00:00:22,000
+I'll walk you through each step clearly.
+
+5
+00:00:22,000 --> 00:00:25,970
+By the end of this video, you'll know how to link any page to your store's navigation.
+
+6
+00:00:26,110 --> 00:00:28,490
+Making browsing intuitive for everyone.
+
+7
+00:00:29,200 --> 00:00:33,180
+Step one: From your Shopify dashboard, click on Content, then select Menus.
+
+8
+00:00:33,480 --> 00:00:35,760
+This is where you manage all your stores menus.
+
+9
+00:00:36,040 --> 00:00:38,470
+Step two: Choose the menu you want to edit.
+
+10
+00:00:38,470 --> 00:00:43,450
+For this video, we'll use the footer menu, which appears at the bottom of your store.
+
+11
+00:00:43,450 --> 00:00:45,460
+Click on it to see the existing menu items.
+
+12
+00:00:46,050 --> 00:00:47,740
+Step three: Click on Add menu item.
+
+13
+00:00:48,010 --> 00:00:50,900
+Enter the name of the new item, for example, accessibility statement.
+
+14
+00:00:51,350 --> 00:00:54,230
+Step four: Link this menu item to the page you want it to lead to.
+
+15
+00:00:54,770 --> 00:00:58,070
+Since this is an accessibility statement, select your accessibility statement page.
+
+16
+00:00:58,350 --> 01:01:21,500
+Step five: Click Save to update the menu. Step six: Go to your online store and click up here to view your store. You'll see the accessibility statement page successfully added to your footer menu, ready for your customers to access easily. Now your Shopify menu is updated and your customers can navigate your store more easily. Don't forget to try it yourself and make your store even more user-friendly.
