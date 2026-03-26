@@ -1,27 +1,25 @@
-# node modules
+# dependencies
 node_modules/
 
-# build files
+# build outputs
 dist/
 build/
+artifacts/**/dist/
 
-# environment files (important)
+# env files
 .env
 .env.local
 .env.*.local
 
 # logs
-logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+logs/
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# editor files
+# editor
 .vscode/
 .idea/
 
@@ -33,6 +31,10 @@ out/
 # coverage
 coverage/
 
-# temp files
+# uploads & generated files (IMPORTANT)
+artifacts/api-server/outputs/
+artifacts/api-server/uploads/
+
+# temp
 tmp/
 temp/
