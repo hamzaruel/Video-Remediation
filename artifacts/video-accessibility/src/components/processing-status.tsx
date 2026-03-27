@@ -9,12 +9,12 @@ interface ProcessingStatusProps {
 }
 
 const PROCESSING_STEPS = [
-  "Analyzing video content...",
-  "Extracting audio stream...",
-  "Generating full transcript...",
-  "Formatting SRT captions...",
-  "Crafting audio descriptions...",
-  "Finalizing accessibility package...",
+  "Reviewing video content...",
+  "Processing audio...",
+  "Preparing transcript...",
+  "Creating captions...",
+  "Preparing audio description...",
+  "Finalizing your files...",
 ];
 
 export function ProcessingStatus({ status, progress }: ProcessingStatusProps) {
@@ -61,7 +61,7 @@ export function ProcessingStatus({ status, progress }: ProcessingStatusProps) {
         </div>
 
         <h3 className="text-xl font-bold text-foreground mb-2">
-          {isUploading ? "Uploading Video" : "AI Processing"}
+          {isUploading ? "Uploading Video" : "Processing"}
         </h3>
 
         <div className="h-6 relative w-full overflow-hidden mb-6 flex items-center justify-center">
@@ -102,7 +102,7 @@ export function ProcessingStatus({ status, progress }: ProcessingStatusProps) {
         )}
         {isProcessing && (
           <p className="text-xs text-muted-foreground mt-4">
-            This usually takes 1-2 minutes depending on video length. Feel free to grab a coffee!
+            This usually takes 4-5 minutes depending on video length. Feel free to grab a coffee!
           </p>
         )}
 

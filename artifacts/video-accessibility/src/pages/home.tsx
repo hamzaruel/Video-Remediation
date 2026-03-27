@@ -6,9 +6,33 @@ import { useAccessibilityGenerator } from "@/hooks/use-accessibility";
 import { AlertTriangle, Sparkles, RefreshCcw, Github } from "lucide-react";
 import logo from "../assets/images/ecomback.png";
 import AppLogo from "../assets/images/Applogo.png";
+import { useState } from "react";
+
+
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 export default function Home() {
   const { status, progress, file, result, error, selectFile, generate, reset } = useAccessibilityGenerator();
+  const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
+const [selectedGenerationTypes, setSelectedGenerationTypes] = useState<
+  ("captions" | "transcript" | "audio-description")[]
+>([]);
+const toggleGenerationType = (
+  type: "captions" | "transcript" | "audio-description"
+) => {
+  setSelectedGenerationTypes((prev) =>
+    prev.includes(type)
+      ? prev.filter((item) => item !== type)
+      : [...prev, type]
+  );
+};
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -74,21 +98,108 @@ export default function Home() {
                 <div className="w-full flex flex-col items-center">
                   <UploadZone onFileSelect={selectFile} selectedFile={file} />
                   
-                  {file && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-8 w-full"
-                    >
-                      <button
-                        onClick={generate}
-                        className="w-full py-4 px-8 rounded-2xl font-bold text-lg text-white bg-gradient-to-r from-primary to-indigo-500 shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group"
-                      >
-                        <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                       Generate Files
-                      </button>
-                    </motion.div>
-                  )}
+                {file && (
+  <>
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="mt-8 w-full"
+    >
+      <button
+    onClick={() => {
+  setSelectedGenerationTypes([]);
+  setIsGenerateModalOpen(true);
+}}
+        className="w-full py-4 px-8 rounded-2xl font-bold text-lg text-white bg-gradient-to-r from-primary to-indigo-500 shadow-xl shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 group"
+      >
+        <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+        Generate Files
+      </button>
+    </motion.div>
+
+   <Dialog open={isGenerateModalOpen} onOpenChange={setIsGenerateModalOpen}>
+  <DialogContent className="sm:max-w-lg rounded-2xl">
+    <DialogHeader>
+      <DialogTitle>Select files to generate</DialogTitle>
+      <DialogDescription>
+        Choose one or more options, then generate the selected files.
+      </DialogDescription>
+    </DialogHeader>
+
+    <div className="space-y-3 mt-4">
+      <label className="flex items-start gap-3 p-4 rounded-xl border border-border bg-background hover:bg-muted/50 transition-colors cursor-pointer">
+        <input
+          type="checkbox"
+          checked={selectedGenerationTypes.includes("captions")}
+          onChange={() => toggleGenerationType("captions")}
+          className="mt-1"
+        />
+        <div>
+          <div className="font-semibold text-foreground">Captions</div>
+          <div className="text-sm text-muted-foreground mt-1">
+            Generate subtitle files for your video.
+          </div>
+        </div>
+      </label>
+
+      <label className="flex items-start gap-3 p-4 rounded-xl border border-border bg-background hover:bg-muted/50 transition-colors cursor-pointer">
+        <input
+          type="checkbox"
+          checked={selectedGenerationTypes.includes("transcript")}
+          onChange={() => toggleGenerationType("transcript")}
+          className="mt-1"
+        />
+        <div>
+          <div className="font-semibold text-foreground">Transcript</div>
+          <div className="text-sm text-muted-foreground mt-1">
+            Generate plain text of spoken content.
+          </div>
+        </div>
+      </label>
+
+      <label className="flex items-start gap-3 p-4 rounded-xl border border-border bg-background hover:bg-muted/50 transition-colors cursor-pointer">
+        <input
+          type="checkbox"
+          checked={selectedGenerationTypes.includes("audio-description")}
+          onChange={() => toggleGenerationType("audio-description")}
+          className="mt-1"
+        />
+        <div>
+          <div className="font-semibold text-foreground">Audio Description</div>
+          <div className="text-sm text-muted-foreground mt-1">
+            Generate descriptions of important visual content.
+          </div>
+        </div>
+      </label>
+    </div>
+
+  <div className="mt-5 pt-4 border-t border-border space-y-3">
+  <button
+    onClick={() => {
+      if (selectedGenerationTypes.length === 0) return;
+      setIsGenerateModalOpen(false);
+      generate(selectedGenerationTypes);
+    }}
+    disabled={selectedGenerationTypes.length === 0}
+    className="w-full py-3 px-4 rounded-xl font-semibold text-white bg-gradient-to-r from-primary to-indigo-500 hover:opacity-95 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    Generate Selected
+  </button>
+
+  <button
+    onClick={() => {
+      setIsGenerateModalOpen(false);
+      generate(["captions", "transcript", "audio-description"]);
+    }}
+    className="w-full py-3 px-4 rounded-xl font-semibold border border-border bg-background text-foreground hover:bg-muted transition-colors"
+  >
+    Generate All
+  </button>
+</div>
+  </DialogContent>
+</Dialog>
+  </>
+)}
                 </div>
               ) : (
                 <div className="w-full mt-4">
@@ -108,8 +219,8 @@ export default function Home() {
             >
               <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
                 <div>
-                  <h2 className="text-3xl font-display font-bold text-foreground mb-2">Generation Complete</h2>
-                  <p className="text-muted-foreground">Your accessibility assets are ready to download.</p>
+                  <h2 className="text-3xl font-display font-bold text-foreground mb-2">Your Files Are Ready</h2>
+                  <p className="text-muted-foreground">Your transcript, captions, and audio description are ready.</p>
                 </div>
                 <button
                   onClick={reset}
@@ -120,32 +231,40 @@ export default function Home() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-                <ResultCard
-                  type="transcript"
-                  title="Transcript"
-                  description="Plain text of all spoken dialogue."
-                  content={result.transcript}
-                  sessionId={result.sessionId}
-                  delay={0.1}
-                />
-                <ResultCard
-                  type="captions"
-                  title="Captions"
-                  description="Timed subtitles ready for video players."
-                  content={result.captions}
-                  sessionId={result.sessionId}
-                  delay={0.2}
-                />
-                <ResultCard
-                  type="audio-description"
-                  title="Audio Description"
-                  description="Visual context for blind & low-vision users."
-                  content={result.audioDescription}
-                  sessionId={result.sessionId}
-                  delay={0.3}
-                />
-              </div>
+           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+  {result.transcript && (
+    <ResultCard
+      type="transcript"
+      title="Transcript"
+      description="Plain text of all spoken dialogue."
+      content={result.transcript}
+      sessionId={result.sessionId}
+      delay={0.1}
+    />
+  )}
+
+  {result.captions && (
+    <ResultCard
+      type="captions"
+      title="Captions"
+      description="Timed subtitles ready for video players."
+      content={result.captions}
+      sessionId={result.sessionId}
+      delay={0.2}
+    />
+  )}
+
+  {result.audioDescription && (
+    <ResultCard
+      type="audio-description"
+      title="Audio Description"
+      description="Visual context for blind & low-vision users."
+      content={result.audioDescription}
+      sessionId={result.sessionId}
+      delay={0.3}
+    />
+  )}
+</div>
 
               <motion.div 
                 initial={{ opacity: 0 }}
@@ -157,9 +276,9 @@ export default function Home() {
                   <span className="text-xl" aria-hidden="true">💡</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-foreground">Pro Tip for Accessibility</h4>
+                  <h4 className="font-semibold text-foreground">Pro Tip</h4>
                   <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
-                    While AI generation is highly accurate, it's always best practice to briefly review the generated content. Check for proper spelling of names, industry-specific terms, and ensure the audio descriptions capture the emotional tone of the scene.
+                 Mediadescribe Pro can make mistakes, Check important info.
                   </p>
                 </div>
               </motion.div>

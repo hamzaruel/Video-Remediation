@@ -1,0 +1,91 @@
+1
+00:00:00,535 --> 00:00:05,485
+Want to make your accessibility statement page easier for your customers to find?
+
+2
+00:00:05,825 --> 00:00:11,925
+In this video, I'll show you exactly how to add a page to your Shopify menu.
+
+3
+00:00:11,925 --> 00:00:13,875
+So your customers can access it effortlessly.
+
+4
+00:00:14,465 --> 00:00:18,525
+If you're new to Shopify or just getting started, don't worry.
+
+5
+00:00:18,525 --> 00:00:20,835
+I'll walk you through each step clearly.
+
+6
+00:00:20,835 --> 00:00:25,385
+By the end of this video, you'll know how to link any page to your store's navigation.
+
+7
+00:00:25,745 --> 00:00:27,705
+Making browsing intuitive for everyone.
+
+8
+00:00:27,705 --> 00:00:33,525
+Step 1. From your Shopify dashboard, click on content, then select menus.
+
+9
+00:00:33,765 --> 00:00:35,765
+This is where you manage all your store's menus.
+
+10
+00:00:35,765 --> 00:00:37,705
+Step 2. Choose the menu you want to edit.
+
+11
+00:00:37,705 --> 00:00:43,485
+For this video, we'll use the footer menu, which appears at the bottom of your store.
+
+12
+00:00:43,485 --> 00:00:45,155
+Click on it to see the existing menu items.
+
+13
+00:00:45,155 --> 00:00:48,315
+Step 3. Click on add menu item.
+
+14
+00:00:48,315 --> 00:00:50,915
+Enter the name of the new item.
+
+15
+00:00:50,915 --> 00:00:52,655
+For example, accessibility statement.
+
+16
+00:00:52,655 --> 00:00:57,255
+Step 4. Link this menu item to the page you want it to lead to.
+
+17
+00:00:57,255 --> 00:00:59,965
+Since this is an accessibility statement, select your accessibility statement page.
+
+18
+00:00:59,965 --> 01:02:18,585
+Step 5. Click save to update the menu.
+
+19
+01:02:18,585 --> 01:02:30,000
+Step 6. Go to your online store and click up here to view your store.
+
+20
+01:02:30,000 --> 01:02:36,450
+You'll see the accessibility statement page successfully added to your footer menu.
+
+21
+01:02:36,450 --> 01:02:37,840
+Ready for your customers to access easily.
+
+22
+01:02:37,840 --> 01:02:42,390
+Now your Shopify menu is updated and your customers can navigate your store more easily.
+
+23
+01:02:42,390 --> 01:02:46,080
+Don't forget to try it yourself and make your store even more user-friendly.

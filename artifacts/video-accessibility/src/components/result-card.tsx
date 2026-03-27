@@ -33,7 +33,8 @@ export function ResultCard({ type, title, description, content, sessionId, delay
     }
   };
 
-  const downloadUrl = `/api/accessibility/download/${type}?sessionId=${sessionId}`;
+const downloadUrl = `/api/accessibility/download/${type}?sessionId=${sessionId}`;
+const captionsTextDownloadUrl = `/api/accessibility/download/captions-text?sessionId=${sessionId}`;
 
   return (
     <motion.div
@@ -75,24 +76,46 @@ export function ResultCard({ type, title, description, content, sessionId, delay
         <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-card to-transparent pointer-events-none" />
       </div>
 
-      <div className="p-4 border-t border-border bg-muted/10 flex justify-between items-center gap-3">
-        <button
-          onClick={handleCopy}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-sm transition-all text-foreground bg-background border border-border hover:bg-muted hover:border-border/80 shadow-sm"
-        >
-          {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-          {copied ? "Copied!" : "Copy Text"}
-        </button>
-        
-        <a
-          href={downloadUrl}
-          download
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-sm transition-all text-primary-foreground bg-primary border border-transparent hover:bg-primary/90 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5"
-        >
-          <Download className="w-4 h-4" />
-          Download
-        </a>
-      </div>
+    <div className="p-4 border-t border-border bg-muted/10 flex flex-col gap-3">
+  <button
+    onClick={handleCopy}
+    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-sm transition-all text-foreground bg-background border border-border hover:bg-muted hover:border-border/80 shadow-sm"
+  >
+    {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+    {copied ? "Copied!" : "Copy Text"}
+  </button>
+
+  {type === "captions" ? (
+    <div className="grid grid-cols-2 gap-3">
+      <a
+        href={downloadUrl}
+        download
+        className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-sm transition-all text-primary-foreground bg-primary border border-transparent hover:bg-primary/90 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5"
+      >
+        <Download className="w-4 h-4" />
+        Download .srt
+      </a>
+
+      <a
+        href={captionsTextDownloadUrl}
+        download
+        className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-sm transition-all text-foreground bg-background border border-border hover:bg-muted hover:border-border/80 shadow-sm"
+      >
+        <Download className="w-4 h-4" />
+        Download .txt
+      </a>
+    </div>
+  ) : (
+    <a
+      href={downloadUrl}
+      download
+      className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-sm transition-all text-primary-foreground bg-primary border border-transparent hover:bg-primary/90 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5"
+    >
+      <Download className="w-4 h-4" />
+      Download
+    </a>
+  )}
+</div>
     </motion.div>
   );
 }

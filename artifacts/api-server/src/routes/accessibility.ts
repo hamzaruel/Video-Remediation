@@ -57,38 +57,62 @@ router.post(
       return;
     }
 
-    const videoPath = req.file.path;
-    const sessionId = uuidv4();
+const videoPath = req.file.path;
+const sessionId = uuidv4();
 
-    req.log.info({ sessionId, file: req.file.originalname }, "Starting accessibility generation");
+const rawGenerationTypes = req.body.generationTypes;
+const generationTypes = Array.isArray(rawGenerationTypes)
+  ? rawGenerationTypes
+  : rawGenerationTypes
+    ? [rawGenerationTypes]
+    : ["captions", "transcript", "audio-description"];
+
+req.log.info(
+  { sessionId, file: req.file.originalname, generationTypes },
+  "Starting accessibility generation"
+);
 
     try {
-      req.log.info({ sessionId }, "Generating transcript");
-      const transcript = await generateTranscript(videoPath);
+      let transcript: string | undefined;
+let captions: string | undefined;
+let audioDescription: string | undefined;
 
-      req.log.info({ sessionId }, "Generating captions");
-      const captions = await generateCaptions(videoPath);
+// Save outputs to disk
+const sessionDir = path.join(OUTPUTS_DIR, sessionId);
+fs.mkdirSync(sessionDir, { recursive: true });
 
-      req.log.info({ sessionId }, "Generating audio description");
-      const audioDescription = await generateAudioDescription(videoPath);
+if (generationTypes.includes("transcript")) {
+  req.log.info({ sessionId }, "Generating transcript");
+  transcript = await generateTranscript(videoPath);
+  fs.writeFileSync(path.join(sessionDir, "transcript.txt"), transcript, "utf-8");
+}
 
-      // Save outputs to disk
-      const sessionDir = path.join(OUTPUTS_DIR, sessionId);
-      fs.mkdirSync(sessionDir, { recursive: true });
+if (generationTypes.includes("captions")) {
+  req.log.info({ sessionId }, "Generating captions");
+  captions = await generateCaptions(videoPath);
+  fs.writeFileSync(path.join(sessionDir, "captions.srt"), captions, "utf-8");
+  fs.writeFileSync(path.join(sessionDir, "captions.txt"), captions, "utf-8");
+}
 
-      fs.writeFileSync(path.join(sessionDir, "transcript.txt"), transcript, "utf-8");
-      fs.writeFileSync(path.join(sessionDir, "captions.srt"), captions, "utf-8");
-      fs.writeFileSync(path.join(sessionDir, "audio-description.txt"), audioDescription, "utf-8");
+if (generationTypes.includes("audio-description")) {
+  req.log.info({ sessionId }, "Generating audio description");
+  audioDescription = await generateAudioDescription(videoPath);
+  fs.writeFileSync(
+    path.join(sessionDir, "audio-description.txt"),
+    audioDescription,
+    "utf-8"
+  );
+}
 
-      req.log.info({ sessionId }, "Accessibility generation complete");
+req.log.info({ sessionId, generationTypes }, "Accessibility generation complete");
 
-      res.json({
-        success: true,
-        sessionId,
-        transcript,
-        captions,
-        audioDescription,
-      });
+res.json({
+  success: true,
+  sessionId,
+  transcript,
+  captions,
+  audioDescription,
+});
     } catch (err) {
       req.log.error({ err, sessionId }, "Error generating accessibility files");
       const message = err instanceof Error ? err.message : "Unknown error occurred";
@@ -117,7 +141,7 @@ router.get("/accessibility/download/:type", (req: Request, res: Response) => {
 
   const validTypes: Record<string, string> = {
     transcript: "transcript.txt",
-    captions: "captions.srt",
+    captions: "captions.txt",
     "audio-description": "audio-description.txt",
   };
 
